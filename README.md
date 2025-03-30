@@ -7,39 +7,7 @@
 ## Overview
 This setup provides a Kafka cluster using KRaft mode (ZooKeeper-free) with 3 brokers. Each broker is configured as both a broker and a controller, using plaintext communication and supporting automatic topic replication.
 
-```
-+------------------ +        +-------------------+        +------------------+
-|   Kafka Broker 1  |        |   Kafka Broker 2  |        |   Kafka Broker 3 |
-|   (Container 1)   |        |   (Container 2)   |        |   (Container 3)  |
-| 9092, 9093, 19092 | <----> | 9092, 9093, 19093 | <----> | 9092, 9093, 19094|
-+-------------------+        +-------------------+        +------------------+
-        |                            |                             |
-        +----------------------------+-----------------------------+
-                                     |
-                             +-----------------+
-                             |  Docker Network |
-        +------------------> |    (kafka-net)  |
-        |                    +-----------------+
-        |                            |
-        |                            |
-        |                            |
-        |                            |
-+------------------+                 |
-|     Kafdrop      |                 |
-|   (Container 4)  |                 |
-|       8080       |                 |
-+------------------+                 |
-                                     |
-                                     |
-                                     |
-                             +----------------+
-                             |  Docker Host   |
-                             | broker1: 19092 |
-                             | broker2: 19093 |
-                             | broker3: 19094 |
-                             | kafdrop: 19000 |
-                             +----------------+
-```
+![Docker-compose Stack](docs/docker-compose-stack.png)
 
 ## Checking Out the Repository
 To clone the repository, use the following command:
