@@ -2,7 +2,7 @@
 
 ![Docker](https://img.shields.io/badge/Docker-27.2.0-orange)
 ![Docker Compose](https://img.shields.io/badge/Docker%20Compose-v1.29.2--desktop.2-orange)
-![Kafka](https://img.shields.io/badge/Kafka-red)
+![Kafka](https://img.shields.io/badge/Kafka-3.x-red)
 
 ## Overview
 This setup provides a Kafka cluster using KRaft mode (ZooKeeper-free) with 3 brokers. Each broker is configured as both a broker and a controller, using plaintext communication and supporting automatic topic replication.
