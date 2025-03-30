@@ -13,6 +13,42 @@ To clone the repository, use the following command:
 git clone git@github.com:luismr/kafka-cluster-docker-compose.git
 ```
 
+## Setting Up the Network
+Before starting the Kafka cluster, ensure the `kafka-net` network is created. You can create it manually with:
+```bash
+docker network create kafka-net
+```
+
+## Setting the KAFKA_CLUSTER_ID
+
+The `KAFKA_CLUSTER_ID` is a crucial environment variable for setting up the Kafka cluster in KRaft mode. You can set this variable in two ways:
+
+### Using an .env File
+1. Rename the `.env.example` file to `.env`.
+2. Open the `.env` file and set the `KAFKA_CLUSTER_ID` variable:
+   ```
+   KAFKA_CLUSTER_ID=your-unique-cluster-id
+   ```
+3. Save the file. Docker Compose will automatically load this file and use the variable when starting the containers.
+
+### Setting Environment Variables Directly
+Alternatively, you can set the `KAFKA_CLUSTER_ID` as an environment variable in your operating system:
+
+#### On Windows
+```cmd
+set KAFKA_CLUSTER_ID=your-unique-cluster-id
+```
+
+#### On Linux/Mac
+```bash
+export KAFKA_CLUSTER_ID=your-unique-cluster-id
+```
+
+After setting the environment variable, you can start the Kafka cluster with Docker Compose:
+```bash
+docker-compose up -d
+```
+
 ## Configuration
 - **KAFKA_KRAFT_CLUSTER_ID**: Unique identifier for the Kafka cluster.
 - **KAFKA_NODE_ID**: Unique ID for each broker.
@@ -33,6 +69,36 @@ To start the Kafka cluster, use the following command:
 docker-compose up -d
 ```
 This command will start all the services defined in the `docker-compose.yml` file in detached mode.
+
+## Connecting to the Kafka Cluster
+
+You can connect to the Kafka cluster using various client libraries. Below is an example using Python with the `kafka-python` library.
+
+### Python Example
+
+First, install the `kafka-python` library:
+
+```bash
+pip install kafka-python
+```
+
+Then, use the following script to produce and consume messages:
+
+```python
+from kafka import KafkaProducer, KafkaConsumer
+
+# Producer
+producer = KafkaProducer(bootstrap_servers=['localhost:19092', 'localhost:19093', 'localhost:19094'])
+producer.send('my-topic', b'Hello, Kafka!')
+producer.flush()
+
+# Consumer
+consumer = KafkaConsumer('my-topic', bootstrap_servers=['localhost:19092', 'localhost:19093', 'localhost:19094'])
+for message in consumer:
+    print(f"Received message: {message.value.decode('utf-8')}")
+```
+
+This example connects to the Kafka brokers running on `localhost:19092`, `localhost:19093`, and `localhost:19094`, sends a message to `my-topic`, and then consumes messages from the same topic.
 
 ## Stopping the Kafka Cluster
 To stop the Kafka cluster, use the following command:

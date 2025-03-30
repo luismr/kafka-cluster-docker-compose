@@ -30,3 +30,6 @@ nbproject/
 
 # General
 Thumbs.db 
+
+# Your .env file
+.env
