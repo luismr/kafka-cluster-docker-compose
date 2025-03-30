@@ -197,4 +197,8 @@ services:
       - kafka-net
 ```
 
-This configuration exposes Kafdrop on port 19000 and connects it to your Kafka brokers via the `kafka-net` network. 
+This configuration exposes Kafdrop on port 19000 and connects it to your Kafka brokers via the `kafka-net` network.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE.md](LICENSE.md) file for more details. 
