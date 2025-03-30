@@ -76,6 +76,19 @@ services:
     ports:
       - "19094:19094" # Expose external port for broker3
 
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    networks: 
+      - kafka-net
+    depends_on:
+      - broker1
+      - broker2
+      - broker3
+    ports:
+      - 19000:9000
+    environment:
+      KAFKA_BROKERCONNECT: broker1:9092,broker2:9092,broker3:9092
+
 networks:
   kafka-net:
     driver: bridge 

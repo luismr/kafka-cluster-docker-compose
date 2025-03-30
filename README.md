@@ -16,16 +16,28 @@ This setup provides a Kafka cluster using KRaft mode (ZooKeeper-free) with 3 bro
         |                            |                             |
         +----------------------------+-----------------------------+
                                      |
-                             +----------------+
+                             +-----------------+
                              |  Docker Network |
-                             |    (kafka-net)  |
-                             +----------------+
+        +------------------> |    (kafka-net)  |
+        |                    +-----------------+
+        |                            |
+        |                            |
+        |                            |
+        |                            |
++------------------+                 |
+|     Kafdrop      |                 |
+|   (Container 4)  |                 |
+|       8080       |                 |
++------------------+                 |
+                                     |
+                                     |
                                      |
                              +----------------+
                              |  Docker Host   |
                              | broker1: 19092 |
                              | broker2: 19093 |
                              | broker3: 19094 |
+                             | kafdrop: 19000 |
                              +----------------+
 ```
 
@@ -149,4 +161,40 @@ To contribute to this project:
 3. Commit your changes and push them to your fork.
 4. Submit a pull request to the main repository.
 
-We welcome contributions and improvements to this setup! 
+We welcome contributions and improvements to this setup!
+
+## Kafka Management UI with Kafdrop
+
+Kafdrop is a web-based user interface that allows you to manage and monitor your Kafka cluster. It provides insights into your Kafka topics, partitions, and consumer groups.
+
+### Accessing Kafdrop
+
+![Kafdrop UI](docs/kafdrop.png)
+
+Kafdrop is configured to run on port 19000. You can access it by navigating to [http://localhost:19000](http://localhost:19000) in your web browser.
+
+### Features of Kafdrop
+
+- **Topic Management**: View and manage Kafka topics and partitions.
+- **Consumer Groups**: Monitor consumer group offsets and lag.
+- **Broker Information**: Get detailed information about the brokers in your cluster.
+- **Message Browsing**: Browse messages in your Kafka topics.
+
+### Running Kafdrop
+
+Ensure that Kafdrop is included in your `docker-compose.yml` and is running alongside your Kafka brokers. Here is an example service definition for Kafdrop:
+
+```yaml
+services:
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    container_name: kafdrop
+    ports:
+      - "19000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "broker1:9092,broker2:9092,broker3:9092"
+    networks:
+      - kafka-net
+```
+
+This configuration exposes Kafdrop on port 19000 and connects it to your Kafka brokers via the `kafka-net` network. 
