@@ -1,7 +1,7 @@
 # Kafka Cluster Docker Compose Setup
 
-![Docker](https://img.shields.io/badge/Docker-orange)
-![Docker Compose](https://img.shields.io/badge/Docker%20Compose-orange)
+![Docker](https://img.shields.io/badge/Docker-27.2.0-orange)
+![Docker Compose](https://img.shields.io/badge/Docker%20Compose-v1.29.2--desktop.2-orange)
 ![Kafka](https://img.shields.io/badge/Kafka-red)
 
 ## Overview
