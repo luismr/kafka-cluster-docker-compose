@@ -1,0 +1,32 @@
+# Common editor junk files
+
+# macOS
+.DS_Store
+
+# Vim
+*.swp
+
+# Emacs
+*~
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# VSCode
+.vscode/
+
+# JetBrains IDEs
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# NetBeans
+nbproject/
+
+# General
+Thumbs.db 

@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  broker1:
+    image: confluentinc/cp-kafka:latest
+    container_name: broker1
+    entrypoint: ["/bin/bash", "/entrypoint.sh"]
+    environment:
+      KAFKA_KRAFT_CLUSTER_ID: "your-cluster-id" # Unique cluster ID for KRaft mode
+      KAFKA_NODE_ID: 1 # Unique node ID for each broker
+      KAFKA_PROCESS_ROLES: "broker,controller" # Configures the broker as both broker and controller
+      KAFKA_LISTENERS: INTERNAL://broker1:9092,EXTERNAL://broker1:19092 # Define internal and external listeners
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT # Use plaintext communication
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL # Use INTERNAL listener for inter-broker communication
+      KAFKA_CONTROLLER_LISTENER_NAMES: INTERNAL # Expose controller ports for debugging
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://broker1:9092,EXTERNAL://localhost:19092 # Advertise unique client listener ports
+      KAFKA_LOG_DIRS: /var/lib/kafka/data # Directory for Kafka logs
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3 # Replication factor for topic replication
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 3 # Replication factor for transaction state log
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 2 # Minimum in-sync replicas for transaction state log
+    volumes:
+      - /var/lib/kafka/data
+      - ./scripts/entrypoint.sh:/entrypoint.sh
+    networks:
+      - kafka-net
+
+  broker2:
+    image: confluentinc/cp-kafka:latest
+    container_name: broker2
+    entrypoint: ["/bin/bash", "/entrypoint.sh"]
+    environment:
+      KAFKA_KRAFT_CLUSTER_ID: "your-cluster-id"
+      KAFKA_NODE_ID: 2
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_LISTENERS: INTERNAL://broker2:9093,EXTERNAL://broker2:19093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: INTERNAL
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://broker2:9093,EXTERNAL://localhost:19093
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 3
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 2
+    volumes:
+      - /var/lib/kafka/data
+      - ./scripts/entrypoint.sh:/entrypoint.sh
+    networks:
+      - kafka-net
+
+  broker3:
+    image: confluentinc/cp-kafka:latest
+    container_name: broker3
+    entrypoint: ["/bin/bash", "/entrypoint.sh"]
+    environment:
+      KAFKA_KRAFT_CLUSTER_ID: "your-cluster-id"
+      KAFKA_NODE_ID: 3
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_LISTENERS: INTERNAL://broker3:9094,EXTERNAL://broker3:19094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: INTERNAL
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://broker3:9094,EXTERNAL://localhost:19094
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 3
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 2
+    volumes:
+      - /var/lib/kafka/data
+      - ./scripts/entrypoint.sh:/entrypoint.sh
+    networks:
+      - kafka-net
+
+networks:
+  kafka-net:
+    driver: bridge 
