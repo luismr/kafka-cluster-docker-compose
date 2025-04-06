@@ -125,4 +125,22 @@ for message in consumer:
     print(f"Received message: {message.value.decode('utf-8')}")
 ```
 
-This example connects to the Kafka brokers running on `localhost:19092`, `localhost:19093`, and `
+This example connects to the Kafka brokers running on `localhost:19092`, `localhost:19093`, and `localhost:19094`.
+
+## Running Kafka in Standalone
+
+Running Kafka in standalone mode is important for testing and development purposes. It allows you to quickly set up a Kafka broker without the need for a full cluster, making it easier to test configurations, produce and consume messages, and develop applications locally.
+
+To run Kafka in standalone mode, use the following command:
+
+```bash
+docker run -d \
+  --name broker \
+  -p 9092:9092 \
+  apache/kafka:latest
+```
+
+## License
+
+This project is licensed under the MIT License. For more details, please refer to the [LICENSE.md](LICENSE.md) file.
+
