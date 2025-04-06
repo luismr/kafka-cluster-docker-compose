@@ -9,6 +9,31 @@ This setup provides a Kafka cluster using KRaft mode (ZooKeeper-free) with 3 bro
 
 ![Docker-compose Stack](docs/docker-compose-stack.png)
 
+## File Structure
+
+The following is an overview of the key files and directories in this repository:
+
+```
+.
+├── docker-compose.yml
+├── scripts/
+├── docs/
+│   ├── docker-compose-stack.png
+│   ├── docker-compose-stack.json
+│   └── kafdrop.png
+├── .env.example
+└── LICENSE.md
+```
+
+- **docker-compose.yml**: Defines the services, networks, and volumes for the Kafka cluster setup.
+- **scripts/**: Contains scripts used for initializing and managing the Kafka brokers.
+- **docs/**: Contains documentation and images related to the project, such as diagrams and UI screenshots.
+  - **docker-compose-stack.png**: An image file depicting the Docker Compose stack.
+  - **docker-compose-stack.json**: A JSON file for editing the Docker Compose stack diagram in Excalidraw.
+  - **kafdrop.png**: An image file related to Kafdrop, possibly a diagram or screenshot.
+- **.env.example**: Template for environment variables, including the `KAFKA_CLUSTER_ID`.
+- **LICENSE.md**: Contains the MIT License for the project.
+
 ## Checking Out the Repository
 To clone the repository, use the following command:
 ```bash
@@ -100,73 +125,4 @@ for message in consumer:
     print(f"Received message: {message.value.decode('utf-8')}")
 ```
 
-This example connects to the Kafka brokers running on `localhost:19092`, `localhost:19093`, and `localhost:19094`, sends a message to `my-topic`, and then consumes messages from the same topic.
-
-## Stopping the Kafka Cluster
-To stop the Kafka cluster, use the following command:
-```bash
-docker-compose down
-```
-This command will stop and remove all the containers defined in the `docker-compose.yml` file.
-
-## Removing the Kafka Cluster
-To remove the Kafka cluster and its associated volumes, use the following command:
-```bash
-docker-compose down -v
-```
-This command will stop the containers and remove the volumes, ensuring that all data is deleted.
-
-## Adding New Nodes
-To add a new broker node:
-1. Copy the configuration of an existing broker in the `docker-compose.yml` file.
-2. Update the `KAFKA_NODE_ID` and listener ports to unique values.
-3. Add the new broker service to the `docker-compose.yml`.
-
-## Contributing
-To contribute to this project:
-1. Fork the repository on GitHub.
-2. Create a new branch for your feature or bug fix.
-3. Commit your changes and push them to your fork.
-4. Submit a pull request to the main repository.
-
-We welcome contributions and improvements to this setup!
-
-## Kafka Management UI with Kafdrop
-
-Kafdrop is a web-based user interface that allows you to manage and monitor your Kafka cluster. It provides insights into your Kafka topics, partitions, and consumer groups.
-
-### Accessing Kafdrop
-
-![Kafdrop UI](docs/kafdrop.png)
-
-Kafdrop is configured to run on port 19000. You can access it by navigating to [http://localhost:19000](http://localhost:19000) in your web browser.
-
-### Features of Kafdrop
-
-- **Topic Management**: View and manage Kafka topics and partitions.
-- **Consumer Groups**: Monitor consumer group offsets and lag.
-- **Broker Information**: Get detailed information about the brokers in your cluster.
-- **Message Browsing**: Browse messages in your Kafka topics.
-
-### Running Kafdrop
-
-Ensure that Kafdrop is included in your `docker-compose.yml` and is running alongside your Kafka brokers. Here is an example service definition for Kafdrop:
-
-```yaml
-services:
-  kafdrop:
-    image: obsidiandynamics/kafdrop
-    container_name: kafdrop
-    ports:
-      - "19000:9000"
-    environment:
-      KAFKA_BROKERCONNECT: "broker1:9092,broker2:9092,broker3:9092"
-    networks:
-      - kafka-net
-```
-
-This configuration exposes Kafdrop on port 19000 and connects it to your Kafka brokers via the `kafka-net` network.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE.md](LICENSE.md) file for more details. 
+This example connects to the Kafka brokers running on `localhost:19092`, `localhost:19093`, and `
